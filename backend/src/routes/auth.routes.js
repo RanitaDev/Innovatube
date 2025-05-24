@@ -2,11 +2,13 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import express from 'express';
+import bcrypt from 'bcryptjs';
+import 'dotenv/config';
 
 const router = express.Router();
 
 router.post('/register', async(req, res) => {
-    const { name, username, email, password} = req.body;
+    const { name, username, email, password } = req.body;
 
     if(!name || !username || !email || !password) {
         return res.status(400).json({
@@ -49,6 +51,58 @@ router.post('/register', async(req, res) => {
         return res.status(500).json({
             msg: 'Error en el servidor'
         })
+    }
+});
+
+router.post('/login', async(req,res) => {
+    const password = req.body.password;
+    const data = req.body.email || req.body.username;
+    
+    if(!data || !password) {
+        return res.status(400).json({ msg: 'Usuario/Email son obligatorios.'});
+    }
+
+    try {
+
+        const user = await User.findOne({
+            $or: [{ username: data }, { email: data } ]
+        });
+
+        if(!user) {
+            return res.status(404).json({ msg: 'El usuario no existe.'});
+        }
+
+        if (data.includes('@') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
+            return res.status(400).json({ msg: 'Correo inválido' });
+        }
+
+        //VERIFICAR CONTRASEÑA
+        const passMatch = await bcrypt.compare(password, user.password);
+        if(!passMatch) {
+            return res.status(401).json({ msg: 'La contraseña es incorrecta.'});
+        }
+
+        //GENERAMOS EL TOKEN JT
+        const token = jwt.sign(
+            { userId: user._id },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
+        //RETORNAMOS EL TOKEN Y LA INFO DEL USUARIO
+        res.status(200).json({
+            token,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                username: user.username
+            }
+        });
+
+    } catch(err) {
+        console.error(err);
+        return res.status(500).json({ msg: 'Error en el servidor.'});
     }
 });
 
