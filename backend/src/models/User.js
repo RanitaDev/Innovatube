@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
-const userSchema = new moongose.Schema({
+const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -27,9 +27,7 @@ const userSchema = new moongose.Schema({
 });
 
 userSchema.pre('save', async function (next){
-    if(!this.isModified('password')) {
-        return next();
-    }
+    if(!this.isModified('password')) return next();
     this.password = await bcrypt.hash(this.password, 10);
     next();
 });
