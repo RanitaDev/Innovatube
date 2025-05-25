@@ -1,0 +1,25 @@
+<div class="search-container">
+  <input
+    [(ngModel)]="searchQuery"
+    placeholder="Buscar videos de YouTube..."
+    (keyup.enter)="onSearch()"
+  >
+  <button (click)="onSearch()">Buscar un vídeo</button>
+</div>
+
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<div class="video-list">
+  <div *ngFor="let video of videos" class="video-card">
+    <img [src]="video.thumbnail" alt="Miniatura">
+    <h3>{{ video.title }}</h3>
+    <p>{{ video.channel }}</p>
+    <p>Publicado: {{ video.publishedAt | date }}</p>
+    <iframe
+      [src]="'https://www.youtube.com/embed/' + video.id | safe"
+      allowfullscreen
+    ></iframe>
+  </div>
+</div>
