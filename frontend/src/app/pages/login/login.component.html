@@ -29,7 +29,7 @@
       type="password">
     </mat-form-field>
 
-    <button>
+    <button (click)="onSubmit()" [disabled]="!user || !pass">
       Iniciar sesión
     </button>
 
