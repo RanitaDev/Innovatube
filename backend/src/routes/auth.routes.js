@@ -55,6 +55,9 @@ router.post('/register', async(req, res) => {
 });
 
 router.post('/login', async(req,res) => {
+
+    console.log(req.body)
+
     const password = req.body.password;
     const data = req.body.email || req.body.username;
     
@@ -84,7 +87,12 @@ router.post('/login', async(req,res) => {
 
         //GENERAMOS EL TOKEN JT
         const token = jwt.sign(
-            { userId: user._id },
+            { 
+                userId: user._id,
+                name: user.name,
+                email: user.email,
+                lastName: user.lastName
+            },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );

@@ -56,9 +56,14 @@ export class LoginComponent {
       return;
     }
 
-    this.auth.login(this.form.value).subscribe({
+    const credentials = {
+      email: this.user,
+      password: this.pass
+    }
+
+    this.auth.login(credentials).subscribe({
       next: (res) => {
-        console.log('Login...');
+        localStorage.setItem('token', (res as any).token);
         this.router.navigate(['/videos']);
       },
       error: (err) => {

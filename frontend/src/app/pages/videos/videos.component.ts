@@ -10,6 +10,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-videos',
@@ -35,13 +36,17 @@ export class VideosComponent {
   errorMessage: string = '';
   maxVideos: number = 10;
   default: string = "NCS";
+  user: any = {};
 
   constructor(
     private youtubeService: YoutubeService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+    this.user = this.authService.getUser();
+    console.log(this.user);
     this.automaticSearch(this.default);
   }
 
