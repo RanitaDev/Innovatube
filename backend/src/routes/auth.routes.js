@@ -8,9 +8,9 @@ import 'dotenv/config';
 const router = express.Router();
 
 router.post('/register', async(req, res) => {
-    const { name, username, email, password } = req.body;
+    const { name, lastName, username, email, password } = req.body;
 
-    if(!name || !username || !email || !password) {
+    if(!name || !lastName || !username || !email || !password) {
         return res.status(400).json({
             msg: 'Los datos requeridos para el registro no están completos'
         })
@@ -29,11 +29,16 @@ router.post('/register', async(req, res) => {
         }
 
         //CREAMOS EL NUEVO DOCUMENTO DEL SUUARIO
-        const newUser = new User({ name, username, email, password });
+        const newUser = new User({ name, lastName, username, email, password });
         await newUser.save();
 
         const token = jwt.sign(
-            {userId: newUser._id},
+            { 
+                userId: newUser._id,
+                name: newUser.name,
+                email: newUser.email,
+                lastName: newUser.lastName
+            },
             process.env.JWT_SECRET,
             { expiresIn: '1h' }
         );

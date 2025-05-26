@@ -1,7 +1,7 @@
 <section>
   <div class="back" (click)="goToVideos()">
     <mat-icon>keyboard_arrow_left</mat-icon>
-    <h3>Volver</h3>
+    <h3>Volver a vídeos</h3>
   </div>
 
   <div class="form">
@@ -21,8 +21,7 @@
           matInput
           placeholder="Apellido"
           [(ngModel)]="lastName"
-          required="true"
-          type="password">
+          required="true">
       </mat-form-field>
     </div>
 
@@ -44,7 +43,8 @@
       placeholder="Contraseña"
       [(ngModel)]="pass"
       required="true"
-      type="password">
+      type="password"
+      (blur)="onWritePass()">
     </mat-form-field>
 
     <mat-form-field class="field">
@@ -53,7 +53,9 @@
       placeholder="Confirma contraseña"
       [(ngModel)]="checkPass"
       required="true"
-      type="password">
+      [disabled]="!passWrite"
+      type="password"
+      (blur)="checkMatch()">
     </mat-form-field>
     </div>
 
@@ -68,7 +70,7 @@
       type="email">
     </mat-form-field>
 
-    <button>
+    <button (click)="onSubmit()" [disabled]="pass !== checkPass || !name || !lastName || !email || !checkPass">
       Crear cuenta
     </button>
 

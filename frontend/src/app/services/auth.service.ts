@@ -13,8 +13,22 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
+  logout() {
+    localStorage.removeItem('token');
+  }
+
   login(credentials: {email: string, password: string}){
     return this.http.post(`${this.apiUrl}/auth/login`, credentials);
+  }
+
+  register(data: {
+    name: string,
+    lastName: string,
+    username: string,
+    password: string,
+    email: string
+  }) {
+    return this.http.post(`${this.apiUrl}/auth/register`, data);
   }
 
   getUser(): User | null {

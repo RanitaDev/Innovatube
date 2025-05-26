@@ -8,6 +8,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../services/auth.service';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ import { AuthService } from '../../services/auth.service';
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSnackBarModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -34,7 +36,8 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private auth: AuthService
+    private auth: AuthService,
+    private snackBar: MatSnackBar
   ) {
     this.form = this.fb.group({
       user: [''],
@@ -52,7 +55,6 @@ export class LoginComponent {
 
   onSubmit() {
     if(!this.user || !this.pass) {
-      alert('Completa los campos');
       return;
     }
 
@@ -68,7 +70,14 @@ export class LoginComponent {
       },
       error: (err) => {
         console.error(err);
-        alert('Credenciales incorrectas o problemas con el servidor');
+        this.snackBar.open(
+          'Credenciales incorrectas o problemas con el servidor',
+          'Cerrar',
+          {
+            duration: 4000,
+            panelClass: ['snackbar-error'],
+          }
+        )
       }
     });
   }

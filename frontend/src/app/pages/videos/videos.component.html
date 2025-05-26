@@ -3,11 +3,18 @@
     <header>
       <h1>Innova<span>Tube</span></h1>
       <ul>
-        <li *ngIf="user?.name">{{ `${user.name +' '+user.lastName}` }}</li>
+        <li *ngIf="user?.userId">{{ `${user.name +' '+user.lastName}` }}</li>
         <li>
-          <button mat-icon-button class="sesion-button">
-            <mat-icon (click)="goToLogin()">person</mat-icon>
+          <button mat-icon-button class="sesion-button" *ngIf="showLog" (click)="goToLogin()">
+            <mat-icon>person</mat-icon>
           </button>
+
+          <button mat-icon-button [matMenuTriggerFor]="menu" class="sesion-button" *ngIf="!showLog">
+            <mat-icon style="color: green;">person</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+          </mat-menu>
         </li>
       </ul>
     </header>
@@ -57,4 +64,3 @@
   </mat-card-content>
 </mat-card>
 </div> -->
-

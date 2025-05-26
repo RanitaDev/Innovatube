@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import {MatMenuModule} from '@angular/material/menu';
 
 @Component({
   selector: 'app-videos',
@@ -24,7 +25,8 @@ import { AuthService } from '../../services/auth.service';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    MatMenuModule
   ],
   templateUrl: './videos.component.html',
   styleUrl: './videos.component.css'
@@ -37,6 +39,7 @@ export class VideosComponent {
   maxVideos: number = 10;
   default: string = "NCS";
   user: any = {};
+  showLog: boolean = false;
 
   constructor(
     private youtubeService: YoutubeService,
@@ -46,7 +49,7 @@ export class VideosComponent {
 
   ngOnInit() {
     this.user = this.authService.getUser();
-    console.log(this.user);
+    this.showLog = this.user === null ? true : false;
     this.automaticSearch(this.default);
   }
 
@@ -77,6 +80,12 @@ export class VideosComponent {
 
   goToLogin() {
     this.router.navigate(['/login']);
+  }
+
+  logout() {
+    this.authService.logout();
+    this.user = null;
+    window.location.reload();
   }
 
 }

@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatDividerModule} from '@angular/material/divider';
 import { Router } from '@angular/router';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +22,8 @@ import { Router } from '@angular/router';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSnackBarModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
@@ -34,10 +37,44 @@ export class RegisterComponent {
   checkPass = '';
   user = '';
   errorMessage = '';
+  passWrite: boolean = false;
+  noMatch = false;
 
   constructor(
-    private router: Router
-  ) { }
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private auth: AuthService
+  ) {}
+
+  ngOnInit(){
+    this.passWrite = false;
+  }
+
+  checkPasswords(){
+  }
+
+  onWritePass(){
+    if(this.pass.length < 3) {
+      this.passWrite = false;
+      return;
+    }
+    this.passWrite = true;
+  }
+
+  checkMatch() {
+  if(this.pass !== this.checkPass) {
+    this.noMatch = true;
+      this.snackBar.open(
+        'Las contraseñas no coinciden',
+        'Cerrar',
+        {
+          duration: 2000,
+          panelClass: ['snackbar-warning'],
+        }
+      )
+    }
+  }
+
 
   goToLogin() {
     this.router.navigate(['/login']);
@@ -45,6 +82,42 @@ export class RegisterComponent {
 
   goToVideos() {
     this.router.navigate(['/videos']);
+  }
+
+  onSubmit() {
+    if(!this.name || !this.lastName || !this.user || !this.email || !this.pass) {
+      console.log(this.name, this.lastName, this.user, this.email, this.pass)
+      return;
+    }
+
+    const credentials = {
+      name: this.name,
+      lastName: this.lastName,
+      username: this.user,
+      password: this.pass,
+      email: this.email
+    }
+
+    this.auth.register(credentials).subscribe({
+      next: (res) => {
+        localStorage.setItem('token', (res as any).token);
+        this.router.navigate(['/videos']);
+      },
+      error: (err) => {
+        console.error(err);
+
+        const message = err.error?.msh || 'Hubo un problema, intentalo más tarde'
+
+        this.snackBar.open(
+          message,
+          'Cerrar',
+          {
+            duration: 4000,
+            panelClass: ['snackbar-error'],
+          }
+        )
+      }
+    });
   }
 
 }
