@@ -18,7 +18,8 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule],
+    MatInputModule
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

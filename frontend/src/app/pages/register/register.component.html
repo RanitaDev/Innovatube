@@ -1,1 +1,81 @@
-<p>register works!</p>
+<section>
+  <div class="back" (click)="goToVideos()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+    <h3>Volver</h3>
+  </div>
+
+  <div class="form">
+    <h1>Regístrarse</h1>
+
+    <div class="doble">
+      <mat-form-field class="field">
+        <input
+        matInput
+        placeholder="Nombre"
+        [(ngModel)]="name"
+        required="true">
+      </mat-form-field>
+
+      <mat-form-field class="field">
+        <input
+          matInput
+          placeholder="Apellido"
+          [(ngModel)]="lastName"
+          required="true"
+          type="password">
+      </mat-form-field>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <mat-form-field class="field">
+      <input
+        matInput
+        placeholder="Nombre de usuario"
+        [(ngModel)]="user"
+        required="true"
+        type="email">
+    </mat-form-field>
+
+    <div class="doble">
+      <mat-form-field class="field">
+      <input
+      matInput
+      placeholder="Contraseña"
+      [(ngModel)]="pass"
+      required="true"
+      type="password">
+    </mat-form-field>
+
+    <mat-form-field class="field">
+    <input
+      matInput
+      placeholder="Confirma contraseña"
+      [(ngModel)]="checkPass"
+      required="true"
+      type="password">
+    </mat-form-field>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <mat-form-field class="field">
+    <input
+      matInput
+      placeholder="Correo electrónico"
+      [(ngModel)]="email"
+      required="true"
+      type="email">
+    </mat-form-field>
+
+    <button>
+      Crear cuenta
+    </button>
+
+    <p>¿Ya tienes una cuenta?  <span (click)="goToLogin()">Inicia sesión</span> </p>
+
+  </div>
+
+</section>
+
+
