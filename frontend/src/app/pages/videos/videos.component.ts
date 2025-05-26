@@ -9,9 +9,11 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-videos',
+  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
@@ -32,9 +34,12 @@ export class VideosComponent {
   videos: any[] =[];
   errorMessage: string = '';
   maxVideos: number = 10;
-  default: string = "Minecraft";
+  default: string = "NCS";
 
-  constructor(private youtubeService: YoutubeService) { }
+  constructor(
+    private youtubeService: YoutubeService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.automaticSearch(this.default);
@@ -63,6 +68,10 @@ export class VideosComponent {
         this.errorMessage = '';
       }
     })
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
   }
 
 }

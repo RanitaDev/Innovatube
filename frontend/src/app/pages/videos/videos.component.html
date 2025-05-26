@@ -6,7 +6,7 @@
         <li>Usuario</li>
         <li>
           <button mat-icon-button class="sesion-button">
-            <mat-icon>person</mat-icon>
+            <mat-icon (click)="goToLogin()">person</mat-icon>
           </button>
         </li>
       </ul>
@@ -40,18 +40,6 @@
 </div>
 
 <!-- <div class="video-list">
-  <div *ngFor="let video of videos" class="video-card">
-    <h3>{{ video.title }}</h3>
-    <p>{{ video.channel }}</p>
-    <p>Publicado: {{ video.publishedAt | date }}</p>
-    <iframe
-      [src]="'https://www.youtube.com/embed/' + video.id | safe"
-      allowfullscreen
-    ></iframe>
-  </div>
-</div> -->
-
-<div class="video-list">
   <mat-card class="video-card" appearance="outlined" *ngFor="let video of videos">
   <iframe
       [src]="'https://www.youtube.com/embed/' + video.id + '?controls=0&modestbranding=0&rel=0&fs=0' | safe"
@@ -68,5 +56,5 @@
     </button>
   </mat-card-content>
 </mat-card>
-</div>
+</div> -->
 

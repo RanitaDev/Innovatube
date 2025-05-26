@@ -1,1 +1,42 @@
-<p>login works!</p>
+<section>
+  <div class="back" (click)="goToVideos()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+    <h3>Volver</h3>
+  </div>
+
+  <div class="register" (click)="goToRegister()">
+    <h3>Crear cuenta</h3>
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  </div>
+
+  <div class="form">
+    <h1>Iniciar sesión</h1>
+
+    <mat-form-field class="field">
+      <input
+      matInput
+      placeholder="Correo o usuario"
+      [(ngModel)]="user"
+      required="true">
+    </mat-form-field>
+
+  <mat-form-field class="field">
+    <input
+      matInput
+      placeholder="Contraseña"
+      [(ngModel)]="pass"
+      required="true"
+      type="password">
+    </mat-form-field>
+
+    <button>
+      Iniciar sesión
+    </button>
+
+    <p>¿Olvidaste tu contraseña?  <span>Recupérala</span> </p>
+
+  </div>
+
+</section>
+
+
