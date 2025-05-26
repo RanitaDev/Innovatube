@@ -35,7 +35,7 @@ export class YoutubeService {
         part: 'snippet',
         q: query,
         type: 'video',
-        maxResults: maxVideos.toString(),
+        maxResults: 10,
         key: environment.youtubeApiKey
       }
     });

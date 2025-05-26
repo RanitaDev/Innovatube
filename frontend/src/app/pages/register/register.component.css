@@ -46,6 +46,10 @@ section {
   gap: 10px;
 }
 
+.captcha {
+  align-self: center;
+  margin-bottom: 12px;
+}
 
 .field {
   padding: 0;

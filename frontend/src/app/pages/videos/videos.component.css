@@ -15,6 +15,7 @@ section {
 /* BLOQUE PARA EL BUSCADOR */
 
 header {
+  z-index: 1000;
   background: #121212c0;
   position: fixed;
   display: flex;

@@ -10,6 +10,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService } from '../../services/auth.service';
+import { RecaptchaModule } from "ng-recaptcha";
 
 @Component({
   selector: 'app-register',
@@ -23,7 +24,8 @@ import { AuthService } from '../../services/auth.service';
     MatFormFieldModule,
     MatInputModule,
     MatDividerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    RecaptchaModule
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
@@ -39,6 +41,8 @@ export class RegisterComponent {
   errorMessage = '';
   passWrite: boolean = false;
   noMatch = false;
+  captchaResponse: string = '';
+  completeCaptcha: boolean = false;
 
   constructor(
     private router: Router,
@@ -59,6 +63,11 @@ export class RegisterComponent {
       return;
     }
     this.passWrite = true;
+  }
+
+  onCaptchaResolved(response: any) {
+    this.captchaResponse = response;
+    this.completeCaptcha = true;
   }
 
   checkMatch() {
@@ -85,8 +94,9 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    if(!this.name || !this.lastName || !this.user || !this.email || !this.pass) {
-      console.log(this.name, this.lastName, this.user, this.email, this.pass)
+    if(!this.name || !this.lastName || !this.user ||
+      !this.email || !this.pass || !this.checkPass ||
+      this.noMatch || !this.completeCaptcha) {
       return;
     }
 
@@ -106,7 +116,7 @@ export class RegisterComponent {
       error: (err) => {
         console.error(err);
 
-        const message = err.error?.msh || 'Hubo un problema, intentalo más tarde'
+        const message = err.error.msg || 'Hubo un problema, intentalo más tarde'
 
         this.snackBar.open(
           message,

@@ -70,7 +70,12 @@
       type="email">
     </mat-form-field>
 
-    <button (click)="onSubmit()" [disabled]="pass !== checkPass || !name || !lastName || !email || !checkPass">
+    <re-captcha class="captcha" *ngIf="!completeCaptcha"
+      siteKey="6LeuRkkrAAAAACYMsfNA3nGgXbAxjQNZzkkaJ4j-"
+      (resolved)="onCaptchaResolved($event)">
+    </re-captcha>
+
+    <button (click)="onSubmit()" [disabled]="pass !== checkPass || !name || !lastName || !email || !checkPass || noMatch || !completeCaptcha">
       Crear cuenta
     </button>
 

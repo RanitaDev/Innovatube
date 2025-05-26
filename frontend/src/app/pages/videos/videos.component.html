@@ -14,6 +14,7 @@
           </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="logout()">Cerrar sesión</button>
+            <button mat-menu-item (click)="onlyFavs()">{{ seeFavs ? 'Ver todos' : 'Ver favoritos' }}</button>
           </mat-menu>
         </li>
       </ul>
@@ -46,7 +47,7 @@
   </button>
 </div>
 
-<!-- <div class="video-list">
+<div class="video-list">
   <mat-card class="video-card" appearance="outlined" *ngFor="let video of videos">
   <iframe
       [src]="'https://www.youtube.com/embed/' + video.id + '?controls=0&modestbranding=0&rel=0&fs=0' | safe"
@@ -59,8 +60,10 @@
     <p>{{ video.publishedAt | date }}</p>
     </div>
     <button>
-      <mat-icon>turned_in</mat-icon>
+      <mat-icon (click)="toggle(video.id)">
+        {{ isFavorite(video.id) ? 'turned_in' : 'turned_in_not' }}
+      </mat-icon>
     </button>
   </mat-card-content>
 </mat-card>
-</div> -->
+</div>
