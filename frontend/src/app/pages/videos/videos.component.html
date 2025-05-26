@@ -1,19 +1,46 @@
+<section style="background-image: url('assets/images/bg.webp');">
+  <div class="container">
+    <header>
+      <h1>Innova<span>Tube</span></h1>
+      <ul>
+        <li>Usuario</li>
+        <li>
+          <button mat-icon-button class="sesion-button">
+            <mat-icon>person</mat-icon>
+          </button>
+        </li>
+      </ul>
+    </header>
+
+    <div class="banner-container">
+      <div class="banner">
+        <h1>InnovaTube</h1>
+        <p>Bienvenido a Innovatube, prueba realizada para corporativo Castores, espero cumpla sus expectativas!.</p>
+        <button>Descubrir contenido</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="separator"></div>
+
 <div class="search-container">
-  <input
+  <mat-form-field class="example-full-width">
+    <input
+    matInput
+    placeholder="Busca un vídeo!"
+    value="Tecnología"
     [(ngModel)]="searchQuery"
-    placeholder="Buscar videos de YouTube..."
-    (keyup.enter)="onSearch()"
-  >
-  <button (click)="onSearch()">Buscar un vídeo</button>
+    (keyup.enter)="onSearch()">
+  </mat-form-field>
+  <button mat-fab>
+    <mat-icon>search</mat-icon>
+  </button>
 </div>
 
-<div *ngIf="errorMessage" class="error-message">
-  {{ errorMessage }}
-</div>
-
-<div class="video-list">
+<!-- <div class="video-list">
   <div *ngFor="let video of videos" class="video-card">
-    <img [src]="video.thumbnail" alt="Miniatura">
     <h3>{{ video.title }}</h3>
     <p>{{ video.channel }}</p>
     <p>Publicado: {{ video.publishedAt | date }}</p>
@@ -22,4 +49,24 @@
       allowfullscreen
     ></iframe>
   </div>
+</div> -->
+
+<div class="video-list">
+  <mat-card class="video-card" appearance="outlined" *ngFor="let video of videos">
+  <iframe
+      [src]="'https://www.youtube.com/embed/' + video.id + '?controls=0&modestbranding=0&rel=0&fs=0' | safe"
+      allowfullscreen
+  ></iframe>
+  <mat-card-content class="content">
+    <div class="info">
+      <h3>{{ video.title }}</h3>
+    <p>{{ video.channel }}</p>
+    <p>{{ video.publishedAt | date }}</p>
+    </div>
+    <button>
+      <mat-icon>turned_in</mat-icon>
+    </button>
+  </mat-card-content>
+</mat-card>
 </div>
+
